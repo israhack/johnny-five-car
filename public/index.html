@@ -1,0 +1,35 @@
+<html>
+<head>
+	<title>Remote Control Car</title>
+	<link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+	<script type="text/javascript" src="js/jquery-2.0.min.js"></script>
+	<script type="text/javascript">
+	var pressedKeys = {},
+		keyCodes = [37,38,39,40];
+
+	function keyUp(e) {
+		if (keyCodes.indexOf(e.keyCode) > -1) {
+			if (pressedKeys[e.keyCode]) {
+				delete pressedKeys[e.keyCode];
+				keyChange(pressedKeys);
+			}
+		}
+	}
+	function keyDown(e) {
+		if (keyCodes.indexOf(e.keyCode) > -1) {
+			if (!pressedKeys[e.keyCode]) {
+				pressedKeys[e.keyCode] = e.keyCode;
+				keyChange(pressedKeys);
+			}
+		}
+	}
+	function keyChange(values) {
+		$.post("/", values, function(data, status) {});
+	}
+	window.addEventListener("keyup", keyUp);
+	window.addEventListener("keydown", keyDown);
+	</script>
+</body>
+</html>
